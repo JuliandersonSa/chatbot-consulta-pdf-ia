@@ -1,105 +1,361 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Chatbot Terminal com Consulta de PDFs</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação do Projeto Chatbot e Guia de Implantação</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>Chatbot Terminal com Consulta de PDFs</h1>
-    <p>Um assistente de terminal inteligente que lê, resume e responde perguntas sobre seus documentos PDF.</p>
-  </header>
+    <header>
+        <h1>Documentação e Guia de Implantação do Chatbot Terminal com Consulta de PDFs</h1>
+        <nav>
+            <ul>
+                <li><a href="#documentacao-chatbot">Guia de Implantação do Chatbot</a></li>
+                <li><a href="#guia-implantacao">Guia de Implantação em TV Box</a></li>
+                <li><a href="https://github.com/JuliandersonSa/chatbot-consulta-pdf-ia/blob/main/Documenta%C3%A7%C3%A3o%20Detalhada%20do%20Projeto_%20Chatbot%20Terminal%20com%20Consulta%20de%20PDFs.pdf" target="_blank">Documentação Detalhada do Projeto_ Chatbot Terminal com Consulta de PDFs no GitHub</a></li>
+                <li><a href="https://github.com/JuliandersonSa/chatbot-consulta-pdf-ia/blob/main/Guia%20Completo_%20Prepara%C3%A7%C3%A3o%20de%20HD%20Externo%20e%20Implanta%C3%A7%C3%A3o%20de%20Chatbot%20em%20TV%20Box%20(Armbian)%20.pdf" target="_blank">Documentação Detalhada da Preparação de HD Externo e Implantação de Chatbot em TV Box (Armbian) no GitHub</a></li>
+                <li><a href="https://github.com/JuliandersonSa/chatbot-consulta-pdf-ia" target="_blank">Repositório do Projeto Chatbot no GitHub</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <section>
-    <h2>Sobre o Projeto</h2>
-    <p>Este projeto foi desenvolvido para facilitar o estudo, leitura e consulta de arquivos PDF diretamente via terminal. Utilizando a API da OpenAI, o chatbot gera resumos dos documentos e permite ao usuário interagir com eles em linguagem natural.</p>
-  </section>
+    <main>
+        <section id="documentacao-chatbot">
+            <h2>Documentação Detalhada do Projeto: Chatbot Terminal com Consulta de PDFs</h2>
 
-  <section>
-    <h2>Funcionalidades</h2>
-    <ul>
-      <li>Leitura e resumo automático de arquivos PDF</li>
-      <li>Armazenamento e carregamento de sessões de conversa</li>
-      <li>Gerenciamento de resumos e conversas exportadas</li>
-      <li>Interação em linguagem natural com base no conteúdo resumido</li>
-      <li>Exportação do histórico de conversa em PDF</li>
-    </ul>
-  </section>
+            <h3>1. Visão Geral do Projeto</h3>
+            <p>Este documento serve como um guia abrangente para entender, configurar e replicar um Chatbot de Consulta de PDFs baseado em Inteligência Artificial. O objetivo principal do chatbot é permitir que usuários interajam com documentos PDF, gerando resumos e conversando com a IA com base no conteúdo desses documentos. Além disso, ele oferece um robusto sistema de gerenciamento de sessões e a capacidade de exportar conversas para arquivos PDF, funcionando como "cadernos digitais" temáticos para organização do conhecimento.</p>
 
-  <section>
-    <h2>Como Usar</h2>
-    <ol>
-      <li>Clone o repositório: <code>git clone https://github.com/JuliandersonSa/chatbot-consulta-pdf-ia.git</code></li>
-      <li>Instale os requisitos com <code>pip install -r requirements.txt</code></li>
-      <li>Configure sua chave da OpenAI no arquivo <code>.env</code></li>
-      <li>Execute com <code>python3 main.py</code></li>
-    </ol>
-  </section>
+            <h4>Funcionalidades Principais:</h4>
+            <ul>
+                <li><strong>Leitura e Resumo de PDFs:</strong> Extrai texto de arquivos PDF e gera resumos inteligentes usando a API da OpenAI.</li>
+                <li><strong>Interação Conversacional:</strong> Permite ao usuário fazer perguntas e receber respostas baseadas no contexto do PDF ativo e no histórico da conversa.</li>
+                <li><strong>Gerenciamento de Sessões:</strong> Cria, carrega, lista e exclui sessões de chat, permitindo organizar conversas por tópico.</li>
+                <li><strong>Gerenciamento de Resumos:</strong> Salva, lista, carrega e exclui resumos de PDFs, oferecendo controle sobre o conteúdo processado.</li>
+                <li><strong>Exportação de Chat para PDF:</strong> Exporta o histórico completo de uma sessão de chat para um arquivo PDF, facilitando a revisão offline e o compartilhamento.</li>
+                <li><strong>Controle de Tokens:</strong> Otimiza o uso da API da OpenAI, garantindo que as interações permaneçam dentro dos limites de tokens do modelo, reduzindo custos e erros.</li>
+            </ul>
 
-  <section>
-    <h2>Comandos Disponíveis</h2>
-    <p>O chatbot aceita comandos iniciados por <code>/</code>. Abaixo estão os principais:</p>
-    <ul>
-      <li><strong>/lerpdf &lt;arquivo.pdf&gt;</strong>: lê o PDF especificado, gera um resumo e ativa como contexto da sessão atual.</li>
-      <li><strong>/nova_sessao &lt;nome&gt;</strong>: cria e ativa uma nova sessão.</li>
-      <li><strong>/carregar_sessao &lt;nome&gt;</strong>: carrega uma sessão previamente salva.</li>
-      <li><strong>/listar_sessoes</strong>: exibe todas as sessões disponíveis.</li>
-      <li><strong>/excluir_sessao &lt;nome&gt;</strong>: remove a sessão informada (exceto a ativa).</li>
-      <li><strong>/listar_resumos</strong>: exibe todos os resumos de PDF salvos.</li>
-      <li><strong>/carregar_resumo &lt;ID ou número&gt;</strong>: ativa um resumo salvo para uso em conversas.</li>
-      <li><strong>/excluir_resumo &lt;ID ou número&gt;</strong>: exclui um resumo específico.</li>
-      <li><strong>/exportar_chat &lt;nome&gt;</strong>: gera um PDF com todo o histórico da sessão atual.</li>
-      <li><strong>/listar_exports</strong>: mostra todos os PDFs exportados.</li>
-      <li><strong>/carregar_export &lt;nome&gt;</strong>: mostra o caminho de um arquivo PDF exportado.</li>
-      <li><strong>/excluir_export &lt;nome&gt;</strong>: remove um PDF exportado.</li>
-      <li><strong>/limpar</strong>: limpa o histórico de conversa e contexto atual.</li>
-      <li><strong>/ajuda</strong>: lista todos os comandos disponíveis.</li>
-      <li><strong>/sair</strong>: salva e encerra o chatbot (opcionalmente exportando o histórico).</li>
-    </ul>
-  </section>
+            <h3>Estrutura do Código e Funções Auxiliares</h3>
+            <p>O projeto é modular, com <code>main.py</code> sendo o ponto de entrada principal e diversas funções auxiliares para gerenciar as operações do chatbot.</p>
 
-  <section>
-    <h2>Como Gerar Histórico de Conversa</h2>
-    <p>Durante uma sessão ativa, todas as interações com o chatbot são armazenadas. Para exportar esse histórico:</p>
-    <ol>
-      <li>Digite <code>/exportar_chat nome_do_arquivo</code>.</li>
-      <li>O arquivo será salvo como PDF na pasta <code>data/profiles/default/exports/NOME_SESSAO/</code>.</li>
-      <li>Você pode visualizar o caminho completo com <code>/carregar_export nome_do_arquivo</code>.</li>
-    </ol>
-    <p>Essa funcionalidade é útil para registrar interações importantes e gerar relatórios de estudo automatizados.</p>
-  </section>
+            <h4>Exemplo de Trecho de <code>main.py</code>:</h4>
+            <pre><code class="python">
+# main.py:
+import os
+import sys
+import datetime # Importado para timestamp dos resumos
+import uuid # Importado para gerar IDs de resumo
+import traceback
+from utils import pdf_exporter
 
-  <section>
-    <h2>Estrutura do Projeto</h2>
-    <pre><code>chatbot-consulta-pdf-ia/
-├── main.py
-├── config/
-│   ├── config.py
-│   └── __init__.py
-├── data/
-│   └── profiles/
-│       └── default/
-│           ├── exports/
-│           ├── sessions/
-│           └── summaries/
-├── pdfs/
-│   └── Resumo_Aulas_Gerenciamento_de_Redes.pdf
-├── utils/
-│   ├── api_service.py
-│   ├── pdf_exporter.py
-│   ├── pdf_processor.py
-│   ├── session_manager.py
-│   └── token_utils.py
-├── .env.example
-├── requirements.txt
-├── README.md
-├── index.html
-└── style.css</code></pre>
-  </section>
+# Adiciona o diretório raiz do projeto ao sys.path para garantir que as importações funcionem
+# quando main.py é executado de qualquer subdiretório (embora geralmente seja da raiz).
+project_root = os.path.abspath(os.path.dirname(__file__))
+sys.path.insert(0, project_root)
 
-  <footer>
-    <p>Código-fonte: <a href="https://github.com/JuliandersonSa/chatbot-consulta-pdf-ia" target="_blank">GitHub</a></p>
-  </footer>
+# Importa módulos e configurações
+from config.config import (
+DEFAULT_MODEL, TEMPERATURE, MAX_TOKENS_LIMIT,
+HISTORY_MESSAGE_LIMIT,
+SYSTEM_MESSAGE, SUMMARY_INSTRUCTION_MESSAGE,
+DEFAULT_SESSION_NAME,
+PDFS_DIR, COMMANDS, SUMMARY_MAX_TOKENS # SUMMARY_MAX_TOKENS importado aqui
+)
+from utils import api_service, pdf_processor, session_manager, token_utils, pdf_exporter
+
+# Variáveis de Estado Global ---
+# Histórico de mensagens da sessão atual
+chat_history = []
+
+# Conteúdo do resumo do PDF atualmente ativo na API
+active_api_summary_content = None
+
+# Metadados do resumo do PDF atualmente ativo (ex: nome do arquivo original)
+active_api_summary_metadata = None
+
+# Nome da sessão de chat atualmente ativa
+current_session_name = DEFAULT_SESSION_NAME
+
+#--- Funções Auxiliares de Gerenciamento de Sessão
+def load_session_state(session_name: str):
+  """Carrega o estado de uma sessão..."""
+            </code></pre>
+            <p>A estrutura de dependências do projeto inclui bibliotecas como <code>pdfplumber</code>, <code>PyPDF2</code>, <code>pypdfium2</code>, <code>tiktoken</code>, <code>requests</code> e outras, gerenciadas pelo <code>pip</code> e listadas no <code>requirements.txt</code>.</p>
+            <p>Para otimização, é possível executar o script com a flag <code>-B</code>, que impede a escrita de arquivos <code>.pyc</code> e força a recarga do código-fonte.</p>
+            <pre><code class="bash">
+python3 -B main.py
+            </code></pre>
+
+            <h3>7. Comandos do Chatbot</h3>
+            <p>Uma vez que o chatbot esteja em execução, você pode interagir com ele usando os seguintes comandos (ou simplesmente digitando perguntas para a IA):</p>
+            <ul>
+                <li><code>/ajuda</code>: Exibe a lista de todos os comandos disponíveis.</li>
+                <li><code>/lerpdf &lt;nome_do_arquivo.pdf&gt;</code>: Lê um arquivo PDF da pasta <code>data/pdfs/</code>, gera um resumo e o ativa como contexto para a conversa.</li>
+                <li><code>/nova_sessao &lt;nome_da_sessao&gt;</code>: Inicia uma nova sessão de chat com o nome especificado, limpando o histórico e o resumo ativo.</li>
+                <li><code>/carregar_sessao &lt;nome_da_sessao&gt;</code>: Carrega uma sessão de chat existente.</li>
+                <li><code>/listar_sessoes</code>: Lista todas as sessões de chat salvas.</li>
+                <li><code>/excluir_sessao &lt;nome_da_sessao&gt;</code>: Exclui uma sessão de chat e seu histórico.</li>
+                <li><code>/listar_resumos</code>: Lista todos os resumos de PDF salvos.</li>
+                <li><code>/carregar_resumo &lt;id_do_resumo&gt;</code>: Carrega um resumo de PDF salvo pelo seu ID, tornando-o o contexto ativo.</li>
+                <li><code>/excluir_resumo &lt;id_do_resumo&gt;</code>: Exclui um resumo de PDF salvo.</li>
+                <li><code>/exportar_chat &lt;nome_do_export&gt;</code>: Exporta o histórico da sessão atual para um arquivo PDF em <code>data/exports/&lt;session_name&gt;/</code>. O nome do arquivo será <code>&lt;nome_do_export&gt;.pdf</code>.</li>
+                <li><code>/listar_exports</code>: Lista todos os chats exportados.</li>
+            </ul>
+        </section>
+
+        <section id="guia-implantacao">
+            <h2>Guia Completo: Preparação de HD Externo e Implantação de Chatbot em TV Box (Armbian)</h2>
+            <p>Este documento detalha o processo passo a passo para preparar um HD externo, transferir um projeto de chatbot para ele e, finalmente, configurar e executar o chatbot em uma TV Box (X96 Mini S905W) com o sistema operacional Armbian. Inclui explicações sobre formatação, manuseio de permissões e resolução de problemas comuns.</p>
+
+            <h3>1. O HD Externo e Seu Preparo</h3>
+            <h4>1.1 Formatação do HD: O `ext4` e Seus Benefícios</h4>
+            <p>A escolha do sistema de arquivos é fundamental para a performance e confiabilidade em ambientes Linux. O `ext4` é o sistema de arquivos padrão e recomendado para a maioria das distribuições Linux (incluindo o Linux Mint no seu PC e o Armbian na TV Box).</p>
+            <ul>
+                <li><strong>Journalização (Journaling): Garantia de Integridade e Recuperação Rápida</strong>
+                    <ul>
+                        <li><strong>O que é:</strong> A journalização é como um "diário de bordo" que o sistema de arquivos mantém. Antes de fazer qualquer alteração real nos dados ou na estrutura do disco (metadados como a localização de um arquivo, seu nome, tamanho), o `ext4` registra a intenção dessa mudança em um *journal* (diário).</li>
+                        <li><strong>Como Funciona:</strong>
+                            <ol>
+                                <li>A operação é escrita no journal.</li>
+                                <li>A operação é executada no disco.</li>
+                                <li>A entrada no journal é marcada como concluída.</li>
+                            </ol>
+                        </li>
+                        <li><strong>Benefício:</strong> Se houver uma interrupção inesperada (queda de energia, travamento do sistema) durante uma operação de escrita, o sistema, ao ser reiniciado, pode consultar o journal. Ele detecta operações incompletas e pode rapidamente reverter ou refazê-las, <strong>garantindo a integridade dos seus dados e a estabilidade do sistema de arquivos</strong>. Sem a journalização, uma recuperação exigiria uma varredura completa do disco (`fsck` demorado), que poderia levar horas e ainda resultar em perda ou corrupção de dados. Com `ext4`, a recuperação é questão de segundos a poucos minutos.</li>
+                    </ul>
+                </li>
+                <li><strong>Melhor Desempenho (Comparado a Sistemas de Arquivos Mais Antigos)</strong>
+                    <ul>
+                        <li>O `ext4` incorpora diversas otimizações para gerenciar o espaço em disco e as operações de I/O (leitura/escrita):
+                            <ul>
+                                <li><strong>Alocação por Extents:</strong> Em vez de alocar blocos de disco individualmente (o que causa fragmentação), o `ext4` aloca "extents" – grandes blocos contíguos de dados. Isso melhora o desempenho de leitura/escrita, pois o cabeçote do HD não precisa "pular" tanto, e reduz a fragmentação, especialmente em arquivos grandes.</li>
+                                <li><strong>Alocação Atrasada (Delayed Allocation):</strong> O `ext4` atrasa a decisão de onde alocar os blocos físicos até o último momento. Isso permite que o sistema de arquivos tome decisões mais inteligentes, agrupando as escritas e alocando blocos contíguos de forma mais eficiente, otimizando o layout dos dados.</li>
+                                <li><strong>Pré-alocação:</strong> Aplicativos podem reservar um espaço para um arquivo antes mesmo de começar a escrevê-lo, garantindo que ele será contíguo no disco.</li>
+                                <li><strong>Alocação Multiblocos:</strong> O sistema pode alocar múltiplos blocos de uma vez, reduzindo a sobrecarga para operações de escrita em massa.</li>
+                            </ul>
+                        </li>
+                        <li>Essas características fazem do `ext4` a escolha ideal para o armazenamento do seu projeto e de dados de longa duração, como as sessões e resumos do chatbot.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4>1.2 Vantagens e Considerações de Ter um Sistema Linux Instalado no HD Externo</h4>
+            <p>No seu caso, o HD externo já possui uma instalação do Linux Mint com o boot de inicialização.</p>
+            <ul>
+                <li><strong>Vantagens:</strong>
+                    <ul>
+                        <li><strong>Formatação Ideal:</strong> O HD já está formatado em `ext4`, o que é perfeito para o Armbian e para o projeto. Não há necessidade de reformatação, evitando perda de dados e simplificando o processo.</li>
+                        <li><strong>Compatibilidade Total:</strong> Por já ser um sistema Linux, o HD será facilmente reconhecido e montado pelo Armbian, sem problemas de compatibilidade de sistemas de arquivos (como aconteceria com NTFS ou FAT32 em alguns cenários).</li>
+                        <li><strong>Ambiente Familiar:</strong> Para a transferência, você já está operando em um ambiente Linux (Linux Mint), o que facilita a execução de comandos de terminal e a familiarização com a estrutura de diretórios.</li>
+                    </ul>
+                </li>
+                <li><strong>Considerações / Desafios Iniciais:</strong>
+                    <ul>
+                        <li><strong>Raiz do HD Compartilhada:</strong> Como o HD contém um sistema Linux, a sua partição principal tem a estrutura de diretórios de um sistema (`/bin`, `/etc`, `/home`, `/usr`, etc.). Isso significa que, se você não tiver cuidado ao copiar, seus arquivos podem se misturar com esses diretórios do sistema, como de fato aconteceu.</li>
+                        <li><strong>Permissões:</strong> A raiz da partição de um sistema Linux (mesmo em um HD externo) geralmente requer privilégios de administrador (`sudo`) para escrever. Por isso, a cópia inicial e a organização exigiram o uso de `sudo` e a manipulação via terminal.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>2. Transferência do Projeto do Chatbot para o HD Externo (No PC com Linux Mint)</h3>
+            <p>Esta seção detalha o processo de cópia do projeto, incluindo os problemas encontrados e suas soluções.</p>
+
+            <h4>2.1 Preparação e Identificação do HD Externo</h4>
+            <p>Antes de copiar, é essencial identificar o caminho exato onde seu HD externo está montado no seu PC com Linux Mint.</p>
+            <ul>
+                <li><strong>Comando `lsblk`:</strong> Lista todos os dispositivos de bloco (discos e partições) e seus pontos de montagem.
+                    <pre><code class="bash">lsblk</code></pre>
+                    <p>No seu caso, o HD externo foi identificado como `sdc` e sua partição principal como `sdc5`, montada em `/media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623`.</p>
+                </li>
+                <li><strong>Comando `df -h`:</strong> Mostra o uso do disco de forma legível e os pontos de montagem.
+                    <pre><code class="bash">df -h</code></pre>
+                    <p>Confirmou o ponto de montagem e o tamanho da partição (`454G` ou similar).</p>
+                </li>
+                <li><strong>Localização do Projeto Original:</strong>
+                    <p>Seu projeto `chatbot_otimizado` estava localizado em `~/Documentos/chatbot_otimizado` (equivalente a `/home/juliosantos/Documentos/chatbot_otimizado`).</p>
+                </li>
+            </ul>
+
+            <h4>2.2 O Processo de Cópia: Desafios e Soluções (Comandos `cp` e `sudo`)</h4>
+            <h5>Desafio 1: "Permissão negada" ao tentar copiar diretamente</h5>
+            <ul>
+                <li><strong>Ocorrência:</strong> Ao tentar <code>cp -r . /media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/</code> inicialmente, o sistema retornou "Permissão negada". Isso também fez com que as opções de "Colar" estivessem desativadas no gerenciador de arquivos gráfico (Nemo).</li>
+                <li><strong>Motivo:</strong> Usuários comuns não têm permissão de escrita na raiz da partição de um sistema Linux por padrão, mesmo que seja um HD externo montado.</li>
+                <li><strong>Solução:</strong> Usar o comando `sudo` (do inglês "superuser do") antes do comando `cp` para executá-lo com privilégios de administrador. Você precisará fornecer sua senha de usuário.
+                    <pre><code class="bash">sudo cp -r . /media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/</code></pre>
+                </li>
+            </ul>
+
+            <h5>Desafio 2: Arquivos do projeto copiados "soltos" na raiz do HD</h5>
+            <ul>
+                <li><strong>Ocorrência:</strong> Após o `sudo cp -r . /media/.../` ter sido executado, os arquivos do projeto (`main.py`, `config/`, `data/`, etc.) apareceram diretamente misturados com as pastas do sistema Linux (`bin`, `boot`, `home`, etc.) na raiz do HD externo.</li>
+                <li><strong>Motivo:</strong> O comando `cp -r . /destino/` significa "copiar <strong>o conteúdo</strong> do diretório atual (o `.`) para o diretório de destino". Ele não cria uma nova pasta com o nome do diretório atual dentro do destino. Como o destino era a raiz do HD, os arquivos foram despejados lá.</li>
+                <li><strong>Solução (Estratégia Segura e Organizada):</strong> Para evitar que os arquivos do projeto se misturassem com os arquivos do sistema Linux no HD externo, usamos uma estratégia de cópia e organização em três passos com o terminal, todos com `sudo`:</p>
+                    <ol>
+                        <li><strong>Crie uma pasta temporária no HD externo:</strong>
+                            <pre><code class="bash">sudo mkdir /media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/temp_transfer</code></pre>
+                            <p>Isso cria um local seguro para a cópia intermediária. Você pode executar este comando de qualquer pasta no seu terminal, pois ele usa um caminho absoluto.</p>
+                        </li>
+                        <li><strong>Copie a pasta COMPLETA do seu projeto (e não apenas o conteúdo) para a pasta temporária no HD:</strong>
+                            <p>Primeiro, certifique-se de estar dentro da pasta original do seu projeto no seu PC:</p>
+                            <pre><code class="bash">cd ~/Documentos/chatbot_otimizado</code></pre>
+                            <p>Em seguida, copie a pasta `chatbot_otimizado` (representada pelo `.` no comando) para dentro da pasta `temp_transfer` no HD externo:</p>
+                            <pre><code class="bash">sudo cp -r . /media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/temp_transfer/chatbot_otimizado</code></pre>
+                            <p><strong>Resultado:</strong> Agora, a pasta `/media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/temp_transfer/chatbot_otimizado` contém todo o seu projeto de forma organizada.</p>
+                        </li>
+                        <li><strong>Mova a pasta `chatbot_otimizado` organizada para a raiz do HD e remova a pasta temporária:</strong>
+                            <p>Move a pasta `chatbot_otimizado` de dentro de `temp_transfer` para a raiz do HD externo:</p>
+                            <pre><code class="bash">sudo mv /media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/temp_transfer/chatbot_otimizado /media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/</code></pre>
+                            <p>Remove a pasta temporária `temp_transfer` (que agora deve estar vazia):</p>
+                            <pre><code class="bash">sudo rm -r /media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/temp_transfer</code></pre>
+                            <p><strong>Cuidado com `rm -r`:</strong> Este comando é poderoso e exclui arquivos e diretórios recursivamente. Tenha certeza de que o caminho está correto.</p>
+                        </li>
+                        <li><strong>Remova os arquivos soltos do projeto da raiz do HD (causados pela primeira tentativa de cópia):</strong>
+                            <p>Como a primeira tentativa de `cp` deixou arquivos soltos na raiz, precisamos limpá-los agora que temos a versão organizada dentro da pasta `chatbot_otimizado`. Este comando lista especificamente os arquivos e pastas do seu projeto que foram copiados incorretamente para a raiz do HD e os remove:</p>
+                            <pre><code class="bash">
+sudo rm -r \
+/media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/codigos.pdf \
+/media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/config \
+/media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/data \
+"/media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/Documentação Detalhada do Projeto_ Chatbot Terminal com Consulta de PDFs.pdf" \
+/media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/env \
+/media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/index.html \
+/media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/main.py \
+/media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/pdfs \
+/media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/README.md \
+/media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/requirements.txt \
+/media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/style.css \
+/media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/utils \
+/media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/.env \
+/media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/.env.example \
+/media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/.git \
+/media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/.gitignore
+                            </code></pre>
+                            <p>As barras invertidas (`\`) no final das linhas servem para indicar que o comando continua na próxima linha. Copie e cole o comando inteiro de uma vez.</p>
+                        </li>
+                    </ol>
+                </li>
+            </ul>
+
+            <h4>2.3 Verificação da Transferência e Organização</h4>
+            <p>Após todos esses passos, a verificação final garante que tudo está perfeito:</p>
+            <ul>
+                <li><strong>Verifique a raiz do HD Externo:</strong>
+                    <pre><code class="bash">ls /media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/</code></pre>
+                    <p><strong>Resultado Esperado:</strong> Você deve ver apenas as pastas do sistema Linux Mint (`bin`, `boot`, `home`, `usr`, `var`, etc.) e a <strong>única</strong> pasta `chatbot_otimizado`. Nenhuma outra pasta ou arquivo do seu projeto deve estar solto aqui.</p>
+                </li>
+                <li><strong>Verifique o conteúdo da pasta do projeto no HD Externo:</strong>
+                    <pre><code class="bash">ls /media/juliosantos/0eb7ffee-b720-4aeb-879a-1129db3ff623/chatbot_otimizado/</code></pre>
+                    <p><strong>Resultado Esperado:</strong> Aqui você deve ver *todos* os arquivos e subpastas do seu projeto (`main.py`, `requirements.txt`, `config/`, `data/`, etc.).</p>
+                </li>
+            </ul>
+
+            <h3>3. Preparando a TV Box (X96 Mini S905W com Armbian) para o Chatbot</h3>
+            <p>Esta etapa descreve como configurar o ambiente na sua TV Box para rodar o chatbot diretamente do HD externo.</p>
+
+            <h4>3.1 Requisitos Iniciais da TV Box:</h4>
+            <ul>
+                <li><strong>Armbian Instalado:</strong> Certifique-se de que o sistema operacional Armbian está funcionando corretamente na sua TV Box X96 Mini S905W (geralmente instalado em um cartão SD ou na memória eMMC).</li>
+                <li><strong>Acesso ao Terminal:</strong> Você precisará de um teclado e mouse USB conectados à TV Box, ou acesso via SSH de outro computador na mesma rede (se configurado).</li>
+            </ul>
+
+            <h4>3.2 Conectando o HD Externo à TV Box e Identificando-o no Armbian</h4>
+            <ol>
+                <li><strong>Desconecte o HD Externo do seu PC com segurança.</strong></li>
+                <li><strong>Conecte o HD Externo a uma porta USB da sua TV Box com Armbian.</strong></li>
+                <li><strong>Acesse o terminal da TV Box.</strong></li>
+                <li><strong>Identifique o HD no Armbian:</strong> O Armbian (como outros sistemas Linux) deve montar o HD automaticamente.
+                    <ul>
+                        <li>Use `lsblk` ou `df -h` para encontrar o HD. Ele deve aparecer com o mesmo tamanho (465.8G / 461.5G) e o mesmo ID (UUID) que você viu no Linux Mint.
+                            <pre><code class="bash">lsblk
+df -h</code></pre>
+                        </li>
+                        <li>O ponto de montagem estará provavelmente em `/media/seu_usuario_armbian/0eb7ffee-b720-4aeb-879a-1129db3ff623`, onde `seu_usuario_armbian` será o nome de usuário que você configurou no Armbian (ex: `root` ou `armbian`). Você pode listar o conteúdo de `/media` para confirmar:
+                            <pre><code class="bash">ls /media/sua_pasta_de_usuario_no_armbian/ # Procure a pasta do seu HD aqui</code></pre>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h4>3.3 Configurando o Ambiente Python no Armbian (e no HD Externo)</h4>
+            <p>É crucial instalar o ambiente virtual (`venv`) e as dependências diretamente no HD externo para economizar espaço de armazenamento limitado na TV Box.</p>
+            <ol>
+                <li><strong>Instale Python 3 e Pip (gerenciador de pacotes Python) no Armbian:</strong>
+                    <p>No terminal da TV Box:</p>
+                    <pre><code class="bash">sudo apt update
+sudo apt install python3 python3-pip</code></pre>
+                    <p>Responda `S` ou `Y` se for solicitado para confirmar a instalação.</p>
+                </li>
+                <li><strong>Navegue até a pasta do seu projeto no HD Externo:</strong>
+                    <p>Use o caminho que você identificou no passo 3.2:</p>
+                    <pre><code class="bash">cd /media/SEU_USUARIO_ARMBIAN/0eb7ffee-b720-4aeb-879a-1129db3ff623/chatbot_otimizado</code></pre>
+                    <p>Lembre-se de substituir `SEU_USUARIO_ARMBIAN` pelo nome de usuário que você usa no Armbian.</p>
+                </li>
+                <li><strong>Crie e Ative o Ambiente Virtual (`venv`) DENTRO da pasta do projeto no HD:</strong>
+                    <p>Comando para criar o `venv` na sua pasta `chatbot_otimizado` no HD:</p>
+                    <pre><code class="bash">python3 -m venv venv</code></pre>
+                    <p>Comando para ativar o ambiente virtual:</p>
+                    <pre><code class="bash">source venv/bin/activate</code></pre>
+                    <p>Você saberá que está ativo porque `(venv)` aparecerá no início da linha de comando do seu terminal.</p>
+                </li>
+                <li><strong>Instale as Dependências do Projeto no Ambiente Virtual:</strong>
+                    <p>Com o `venv` ativo, as bibliotecas listadas no `requirements.txt` serão instaladas dentro do ambiente virtual no seu HD.</p>
+                    <p>Ainda dentro da pasta do projeto e com o `venv` ativo:</p>
+                    <pre><code class="bash">pip install -r requirements.txt</code></pre>
+                </li>
+            </ol>
+
+            <h4>3.4 Executando o Chatbot</h4>
+            <p>Após todas as dependências serem instaladas com sucesso, você está pronto para rodar o chatbot!</p>
+            <ul>
+                <li>Com o `venv` ainda ativo e dentro da pasta do projeto (`chatbot_otimizado`):
+                    <pre><code class="bash">python3 main.py</code></pre>
+                </li>
+                <li><strong>Sugestão (da sua documentação):</strong> Se quiser evitar a criação de arquivos `.pyc` (bytecode) e forçar a recarga do código-fonte, pode usar a flag `-B`:
+                    <pre><code class="bash">python3 -B main.py</code></pre>
+                </li>
+            </ul>
+
+            <h4>3.5 Possíveis Problemas na TV Box e Soluções</h4>
+            <ul>
+                <li><strong>HD Não Montado Automaticamente:</strong>
+                    <ul>
+                        <li><strong>Sintoma:</strong> O HD externo não aparece em `/media/seu_usuario` ou não é reconhecido por `lsblk`/`df -h`.</li>
+                        <li><strong>Causa:</strong> Raro com Armbian moderno, mas pode acontecer se o sistema de arquivos não for reconhecido ou houver um problema na porta USB.</li>
+                        <li><strong>Solução:</strong> Tente reiniciar a TV Box. Verifique se o cabo USB e o HD estão funcionando em outro dispositivo. Se persistir, pode ser necessário montar manualmente (`sudo mount /dev/sdXN /mnt/ponto_de_montagem`) ou configurar o `/etc/fstab` (mais avançado).</li>
+                    </ul>
+                </li>
+                <li><strong>Problemas de Permissão no Armbian:</strong>
+                    <ul>
+                        <li><strong>Sintoma:</strong> Erros como "Permissão negada" ao criar o `venv` ou instalar pacotes com `pip`.</li>
+                        <li><strong>Causa:</strong> Você pode estar tentando fazer algo sem `sudo` que exige privilégios, ou as permissões no ponto de montagem do HD estão restritivas no Armbian.</li>
+                        <li><strong>Solução:</strong> Use `sudo` para comandos que alteram o sistema ou o HD (ex: `sudo python3 -m venv venv`, `sudo pip install -r requirements.txt`). Se o problema for persistente nas pastas do HD, talvez precise alterar as permissões do ponto de montagem (`sudo chown -R seu_usuario:seu_usuario /media/seu_usuario/ID_ou_NomeDoHD`).</li>
+                    </ul>
+                </li>
+                <li><strong>Erros de Dependência ou Instalação do `pip`:</strong>
+                    <ul>
+                        <li><strong>Sintoma:</strong> `pip install -r requirements.txt` falha com erros de compilação ou pacotes não encontrados.</li>
+                        <li><strong>Causa:</strong> Algumas bibliotecas Python possuem dependências de sistema (bibliotecas C/C++) que precisam ser instaladas primeiro. A arquitetura ARM (da TV Box) pode ter particularidades.</li>
+                        <li><strong>Solução:</strong> Leia a mensagem de erro. Ela geralmente indica qual pacote ou dependência de sistema está faltando. Pesquise por "nome_do_pacote armbian install" ou "nome_da_biblioteca_C/C++ armbian". Você pode precisar instalar pacotes de desenvolvimento com `sudo apt install build-essential`.</li>
+                    </ul>
+                </li>
+                <li><strong>Recursos da TV Box Insuficientes:</strong>
+                    <ul>
+                        <li><strong>Sintoma:</strong> O chatbot é muito lento, trava, ou o sistema fica sem memória (OOM - Out Of Memory).</li>
+                        <li><strong>Causa:</strong> Modelos de IA (mesmo os mais leves) e processamento de PDFs podem ser intensivos em CPU e RAM. A X96 Mini S905W pode ter limitações para cargas de trabalho muito pesadas.</li>
+                        <li><strong>Solução:</strong> Otimize o chatbot (reduza o tamanho do contexto da IA, limite o tamanho dos PDFs processados). Monitore o uso de recursos com `htop` ou `free -h` no terminal do Armbian. Considere aumentar a `swap` se o disco tiver espaço (o Armbian geralmente configura isso automaticamente, mas pode ser expandido).</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Documentação do Projeto Chatbot. Todos os direitos reservados.</p>
+        <p>Visite o repositório do projeto no GitHub: <a href="https://github.com/JuliandersonSa/chatbot-consulta-pdf-ia" target="_blank">Link para o Repositório</a></p>
+        <p><strong>Lembre-se de substituir 'SEU_USUARIO_GITHUB/SEU_REPOSITORIO_CHATBOT' pelo caminho real do seu repositório no GitHub!</strong></p>
+    </footer>
 </body>
 </html>

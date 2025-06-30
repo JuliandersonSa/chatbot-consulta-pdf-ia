@@ -1,56 +1,154 @@
-/* Reset e tipografia */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* style.css */
 
-html {
-  scroll-behavior: smooth;
-}
-
+/* Estilos Gerais */
 body {
-  font-family: "Segoe UI", Roboto, sans-serif;
-  line-height: 1.6;
-  padding: 20px;
-  background-color: #fefefe;
-  color: #222;
-  transition: background-color 0.3s, color 0.3s;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
 }
 
-/* Suporte a modo escuro automático */
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #111;
-    color: #ddd;
-  }
-
-  section, header, footer {
-    background-color: #1c1c1c;
-    border-color: #444;
-  }
-
-  code {
-    background-color: #2a2a2a;
-  }
-
-  a {
-    color: #4dc2ff;
-  }
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+    padding: 20px 0;
 }
 
+/* Cabeçalho */
 header {
-  text-align: center;
-  margin-bottom: 40px;
+    background: #333;
+    color: #fff;
+    padding-top: 30px;
+    min-height: 70px;
+    border-bottom: #77aaff 3px solid;
+    text-align: center;
 }
 
 header h1 {
-  font-size: 2.5em;
-  margin-bottom: 10px;
-  color: #007acc;
+    margin: 0;
+    padding-bottom: 10px;
+}
+
+header nav ul {
+    padding: 0;
+    list-style: none;
+}
+
+header nav ul li {
+    display: inline;
+    padding: 0 15px;
+}
+
+header a {
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 16px;
+}
+
+header a:hover {
+    color: #77aaff;
+    font-weight: bold;
+}
+
+/* Seções Principais */
+main {
+    padding: 20px;
+    max-width: 960px;
+    margin: 20px auto;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
 section {
-  margin-bottom: 40px;
-  padding: 20px;
-  background-color
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed #ccc;
+}
+
+section:last-of-type {
+    border-bottom: none;
+}
+
+h2 {
+    color: #333;
+    border-bottom: 2px solid #77aaff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+h3 {
+    color: #555;
+    margin-top: 30px;
+}
+
+h4 {
+    color: #777;
+    margin-top: 20px;
+}
+
+/* Listas */
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+ul li, ol li {
+    margin-bottom: 8px;
+}
+
+/* Blocos de Código */
+pre {
+    background: #eee;
+    padding: 15px;
+    border-left: 4px solid #77aaff;
+    overflow-x: auto;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+code {
+    font-family: 'Courier New', Courier, monospace;
+    color: #007bff;
+}
+
+pre code {
+    color: #333;
+}
+
+/* Rodapé */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #333;
+    color: #fff;
+    margin-top: 30px;
+}
+
+footer a {
+    color: #77aaff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsividade Básica */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 24px;
+    }
+    header nav ul li {
+        display: block;
+        padding: 5px 0;
+    }
+    main {
+        margin: 10px;
+        padding: 15px;
+    }
+}
