@@ -5,6 +5,12 @@ import uuid     # Importado para gerar IDs de resumo
 import traceback
 from utils import pdf_exporter
 
+# --- Funçõe Auxiliare de Exibição no Terminal ---
+
+def print_separator(char="=", length=60):
+    """Imprime uma linha de separação no terminal."""
+    print(char * length)
+
 # Adiciona o diretório raiz do projeto ao sys.path para garantir que as importações funcionem
 # quando main.py é executado de qualquer subdiretório (embora geralmente seja da raiz).
 project_root = os.path.abspath(os.path.dirname(__file__))
@@ -63,8 +69,9 @@ def load_session_state(session_name: str):
         active_api_summary_content = loaded_active_api_summary_content
         active_api_summary_metadata = loaded_active_api_summary_metadata
         current_session_name = session_name
-        print(f"\nSessão '{current_session_name}' carregada com sucesso.") # Mensagem de sucesso aqui
-
+        print_separator()
+        print(f"Sessão '{current_session_name}' carregada com sucesso.") # Mensagem de sucesso aqui
+        print_separator()
         # Aprimoramento: Verifica se ambos, conteúdo E metadados, existem
         if active_api_summary_content and active_api_summary_metadata:
             print(f"Resumo ativo: {active_api_summary_metadata.get('original_filename', 'PDF Desconhecido')}")
@@ -474,10 +481,10 @@ def run_chatbot():
     # Carrega o estado inicial da sessão padrão
     load_session_state(DEFAULT_SESSION_NAME)
 
-    print("\n" + "="*50)
+    print_separator()
     print("Bem-vindo ao Chatbot de Consulta de PDFs!")
     print("Digite suas perguntas ou um comando (ex: /ajuda para ver os comandos).")
-    print("="*50 + "\n")
+    print_separator()
 
     while True:
         try:
