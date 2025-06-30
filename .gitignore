@@ -1,0 +1,21 @@
+# Arquivos de configuração sensíveis
+.env
+
+# Dados gerados pelo chatbot (sessões, resumos, exports)
+data/
+
+# Ambientes virtuais
+env/
+venv/
+.venv/
+
+# Cache do Python e arquivos temporários
+__pycache__/
+*.pyc
+*.log
+.pytest_cache/
+.mypy_cache/
+
+# Arquivos de IDEs (opcional, adicione se usar VS Code, PyCharm, etc.)
+.vscode/
+.idea/
