@@ -3,7 +3,7 @@
 Este é um chatbot de terminal desenvolvido em Python que permite consultar o conteúdo de arquivos PDF utilizando a inteligência artificial da OpenAI. Projetado para rodar em sistemas como Armbian, especificamente testado em uma Tv Box x96 mini s905w, ele oferece uma solução leve e eficiente para interagir com seus documentos diretamente do terminal.
 
 ## Funcionalidades Principais:
-- Leitura e Resumo de PDFs via OpenAI.
+- Leitura e Resumo de PDFs via api OpenAI.
 - Gerenciamento de sessões de chat.
 - Exportação de histórico de chat para PDF.
 - Interface de terminal simples e eficiente.
