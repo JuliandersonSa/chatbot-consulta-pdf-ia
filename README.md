@@ -49,4 +49,4 @@ Este é um chatbot de terminal desenvolvido em Python que permite consultar o co
 - `/sair`: Salva a sessão e encerra o chatbot (com opção de exportar o chat).
 
 ---
-*Por JuliandersoSa*
+*Por JuliandersoSa *
