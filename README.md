@@ -24,7 +24,8 @@ Este é um chatbot de terminal desenvolvido em Python que permite consultar o co
 
 ### Instalação:
 1. Clone este repositório:
-   `git clone [URL_DO_SEU_REPOSITORIO_AQUI]`
+   `git clone https://github.com/JuliandersonSa/chatbot-consulta-pdf-ia.git`
+>>>>>>> 7eb1c62 (Initial commit: Chatbot project setup, core logic, and website structure)
 2. Navegue até o diretório do projeto:
    `cd nome_do_seu_repositorio`
 3. Crie e ative um ambiente virtual:
