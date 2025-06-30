@@ -31,40 +31,40 @@ def export_chat_to_pdf(chat_history: list, session_name: str, export_name: str) 
     """
     Exporta o histórico completo de um chat para um arquivo PDF.
     """
-    print(f"DEBUG: export_chat_to_pdf iniciado. session_name: {session_name}, export_name: {export_name}") # Print de depuração
+    #print(f"DEBUG: export_chat_to_pdf iniciado. session_name: {session_name}, export_name: {export_name}") # Print de depuração
 
     if not chat_history:
-        print("DEBUG: Histórico do chat vazio.") # Print de depuração
+        #print("DEBUG: Histórico do chat vazio.") # Print de depuração
         return "O histórico do chat está vazio. Nada para exportar."
 
     # ESTA É A LINHA CRUCIAL QUE PRECISA SER ADICIONADA OU VERIFICADA!
     # Ela limpa o nome do export e atribui à variável base_name_cleaned.
     base_name_cleaned = "".join(c for c in export_name if c.isalnum() or c in (' ', '_', '-')).strip()
-    print(f"DEBUG: base_name_cleaned após limpeza inicial: '{base_name_cleaned}'") # Print de depuração
+    #print(f"DEBUG: base_name_cleaned após limpeza inicial: '{base_name_cleaned}'") # Print de depuração
 
     # 1. Garante que o nome base não tenha .pdf extra
     # Agora, base_name_cleaned EXISTE ANTES DE SER USADA aqui.
     if base_name_cleaned.lower().endswith(".pdf"):
-        print(f"DEBUG: '{base_name_cleaned}' termina com .pdf, removendo a extensão.") # Print de depuração
+        #print(f"DEBUG: '{base_name_cleaned}' termina com .pdf, removendo a extensão.") # Print de depuração
         base_name_cleaned = base_name_cleaned[:-4] # Remove a última ".pdf"
-        print(f"DEBUG: base_name_cleaned após remover .pdf extra: '{base_name_cleaned}'") # Print de depuração
+        #print(f"DEBUG: base_name_cleaned após remover .pdf extra: '{base_name_cleaned}'") # Print de depuração
 
     # Adicione uma verificação para nome vazio após a limpeza
     if not base_name_cleaned:
-        print("DEBUG: base_name_cleaned está vazia após a limpeza. Retornando erro.") # Print de depuração
+        #print("DEBUG: base_name_cleaned está vazia após a limpeza. Retornando erro.") # Print de depuração
         return "Erro: O nome do arquivo exportado não pode ser vazio ou conter apenas caracteres inválidos após a limpeza."
 
     # 2. Adiciona o timestamp para garantir um nome de arquivo único
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    print(f"DEBUG: Timestamp gerado: {timestamp}") # Print de depuração
+    #print(f"DEBUG: Timestamp gerado: {timestamp}") # Print de depuração
 
     # 3. Constrói o nome de arquivo final, com o nome limpo, timestamp e UMA extensão .pdf
     final_export_filename = f"{base_name_cleaned}_{timestamp}.pdf"
-    print(f"DEBUG: Nome final do arquivo exportado: '{final_export_filename}'") # Print de depuração
+    #print(f"DEBUG: Nome final do arquivo exportado: '{final_export_filename}'") # Print de depuração
 
     # 4. Chama _get_export_path com o nome de arquivo FINAL e COMPLETO
     pdf_path = _get_export_path(session_name, final_export_filename)
-    print(f"DEBUG: Caminho completo para o PDF: '{pdf_path}'") # Print de depuração
+    #print(f"DEBUG: Caminho completo para o PDF: '{pdf_path}'") # Print de depuração
 
     try:
         pdf = FPDF()
@@ -101,12 +101,12 @@ def export_chat_to_pdf(chat_history: list, session_name: str, export_name: str) 
             pdf.ln(2) # Pequena quebra de linha entre mensagens para melhor leitura
 
         pdf.output(pdf_path)
-        print(f"DEBUG: PDF gerado com sucesso em '{pdf_path}'") # Print de depuração
+        #print(f"DEBUG: PDF gerado com sucesso em '{pdf_path}'") # Print de depuração
         return f"Histórico do chat exportado com sucesso para: {pdf_path}"
     except Exception as e:
         import traceback # Para depuração
         traceback.print_exc() # Mostra o erro completo no console para depuração
-        print(f"DEBUG: Erro na exportação do PDF: {e}") # Print de depuração
+        #print(f"DEBUG: Erro na exportação do PDF: {e}") # Print de depuração
         return f"Erro ao exportar chat para PDF: {e}"
 
 def list_exported_pdfs(session_name: str = None) -> list:
@@ -138,39 +138,39 @@ def get_exported_pdf_path(session_name: str, export_name: str) -> str:
     """
     Retorna o caminho completo de um PDF de interação exportado específico.
     """
-    print(f"DEBUG (get_exported_pdf_path): Tentando obter caminho para sessão='{session_name}', export_name='{export_name}'")
+    #print(f"DEBUG (get_exported_pdf_path): Tentando obter caminho para sessão='{session_name}', export_name='{export_name}'")
     pdf_path = _get_export_path(session_name, export_name)
-    print(f"DEBUG (get_exported_pdf_path): Caminho construído: '{pdf_path}'")
+    #print(f"DEBUG (get_exported_pdf_path): Caminho construído: '{pdf_path}'")
     if os.path.exists(pdf_path):
-        print(f"DEBUG (get_exported_pdf_path): Arquivo encontrado em: '{pdf_path}'")
+        #print(f"DEBUG (get_exported_pdf_path): Arquivo encontrado em: '{pdf_path}'")
         return pdf_path
-    print(f"DEBUG (get_exported_pdf_path): Arquivo NÃO encontrado em: '{pdf_path}'")
+    #print(f"DEBUG (get_exported_pdf_path): Arquivo NÃO encontrado em: '{pdf_path}'")
     return None
 
 def delete_exported_pdf(session_name: str, export_name: str) -> bool:
     """
     Exclui um PDF de interação exportado específico.
     """
-    print(f"DEBUG (delete_exported_pdf): Tentando excluir para sessão='{session_name}', export_name='{export_name}'")
+    #print(f"DEBUG (delete_exported_pdf): Tentando excluir para sessão='{session_name}', export_name='{export_name}'")
     pdf_path = _get_export_path(session_name, export_name)
-    print(f"DEBUG (delete_exported_pdf): Caminho construído para exclusão: '{pdf_path}'")
+    #print(f"DEBUG (delete_exported_pdf): Caminho construído para exclusão: '{pdf_path}'")
     if os.path.exists(pdf_path):
-        print(f"DEBUG (delete_exported_pdf): Arquivo encontrado para exclusão em: '{pdf_path}'")
+        #print(f"DEBUG (delete_exported_pdf): Arquivo encontrado para exclusão em: '{pdf_path}'")
         try:
             os.remove(pdf_path)
-            print(f"DEBUG (delete_exported_pdf): Arquivo removido: '{pdf_path}'")
+            #print(f"DEBUG (delete_exported_pdf): Arquivo removido: '{pdf_path}'")
             # Tenta remover o diretório da sessão se estiver vazio
             session_export_dir = os.path.join(EXPORTS_DIR, session_name)
             if not os.listdir(session_export_dir): # Verifica se o diretório está vazio
-                print(f"DEBUG (delete_exported_pdf): Diretório da sessão vazio, tentando remover: '{session_export_dir}'")
+                #print(f"DEBUG (delete_exported_pdf): Diretório da sessão vazio, tentando remover: '{session_export_dir}'")
                 os.rmdir(session_export_dir)
-                print(f"DEBUG (delete_exported_pdf): Diretório da sessão removido: '{session_export_dir}'")
+                #print(f"DEBUG (delete_exported_pdf): Diretório da sessão removido: '{session_export_dir}'")
             return True
         except Exception as e:
-            print(f"DEBUG (delete_exported_pdf): Erro ao excluir PDF de exportação: {e}")
+            #print(f"DEBUG (delete_exported_pdf): Erro ao excluir PDF de exportação: {e}")
             print(f"Erro ao excluir PDF de exportação: {e}")
             return False
-        print(f"DEBUG (delete_exported_pdf): Arquivo NÃO encontrado para exclusão em: '{pdf_path}'")
+        #print(f"DEBUG (delete_exported_pdf): Arquivo NÃO encontrado para exclusão em: '{pdf_path}'")
     return False
 
 # --- Bloco de Teste (apenas para depuração do módulo) ---
