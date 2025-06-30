@@ -36,15 +36,11 @@ current_session_name = DEFAULT_SESSION_NAME
 
 # --- Funções Auxiliares de Gerenciamento de Sessão ---
 
-# --- Funções Auxiliares de Gerenciamento de Sessão ---
-
 def load_session_state(session_name: str):
     """Carrega o estado de uma sessão."""
     global chat_history, active_api_summary_content, active_api_summary_metadata, current_session_name
-
-   # print(f"DEBUG: Tentando carregar sessão: {session_name}")
+    print_separator()
     loaded_data = session_manager.load_session(session_name)
-    #print(f"DEBUG: Tipo de loaded_data: {type(loaded_data)}, Valor: {loaded_data}")
 
     if loaded_data: # Início do bloco principal 'if loaded_data'
         loaded_chat_history = loaded_data.get("chat_history", [])
@@ -65,13 +61,9 @@ def load_session_state(session_name: str):
         # Fim do bloco 'if/else' interno
 
         # Estas linhas pertencem ao bloco principal 'if loaded_data'.
-        # Elas devem estar na mesma indentação do 'if' interno acima.
         active_api_summary_content = loaded_active_api_summary_content
         active_api_summary_metadata = loaded_active_api_summary_metadata
         current_session_name = session_name
-        print_separator()
-        print(f"Sessão '{current_session_name}' carregada com sucesso.") # Mensagem de sucesso aqui
-        print_separator()
         # Aprimoramento: Verifica se ambos, conteúdo E metadados, existem
         if active_api_summary_content and active_api_summary_metadata:
             print(f"Resumo ativo: {active_api_summary_metadata.get('original_filename', 'PDF Desconhecido')}")
@@ -496,8 +488,9 @@ def run_chatbot():
                 elif command == COMMANDS["help"]:
                     handle_help()
                 elif command == COMMANDS["exit"]:
+                    print_separator()
                     user_choice = input("\nDeseja exportar o chat atual para PDF antes de sair? (s/n): ").lower().strip()
-                    
+                    print_separator()
                     if user_choice == 's':
                         export_name = input("Por favor, digite um nome para o arquivo PDF (ex: MinhaConversaImportante): ").strip()
                         if export_name:
@@ -506,12 +499,14 @@ def run_chatbot():
                         else:
                             print("Nome de exportação vazio. O chat não será exportado.")
                     elif user_choice == 'n':
+                        print_separator()
                         print("Chat não exportado.")
                     else:
                         print("Opção inválida. Chat não exportado.")
                     
                     save_session_state()
                     print("Saindo do chatbot. Até mais!")
+                    print_separator()
                     break
                 # --- NOVOS COMANDOS DE EXPORTAÇÃO ---
                 elif command == COMMANDS["export_chat"]:
@@ -522,7 +517,9 @@ def run_chatbot():
                     handle_delete_export(args)
                 # --- FIM DOS NOVOS COMANDOS ---
                 else:
+                    print_separator()
                     print(f"Comando '{command}' não reconhecido. Digite /ajuda para ver os comandos.")
+                    print_separator()
             else:
                 # Se não for um comando, é uma pergunta ao chatbot
                 user_message = {"role": "user", "content": user_input}
@@ -551,10 +548,14 @@ def run_chatbot():
 
                 # Se o prompt for muito longo, alertar e não enviar
                 if api_prompt_tokens > MAX_TOKENS_LIMIT:
+                    print_separator()
                     print(f"Aviso: Sua pergunta e o contexto (histórico/resumo) excedem o limite de tokens do modelo ({api_prompt_tokens} tokens). Por favor, limpe o contexto (/limpar) ou faça uma pergunta mais curta.")
+                    print_separator()
                     continue
-                
+               
+                print_separator()
                 print("Gerando resposta (isso pode levar um tempo)...")
+                print_separator()
                 # max_tokens para a resposta da IA em conversas normais pode ser DEFAULT_MAX_TOKENS_RESPONSE
                 # que podemos adicionar ao config.py, ou deixar a API definir.
                 # Aqui, não estamos limitando explicitamente a resposta para conversas gerais,
@@ -565,21 +566,29 @@ def run_chatbot():
                     temperature=TEMPERATURE
                 )
 
+                print_separator()
                 if bot_response:
                     print(f"[{current_session_name}] Bot: {bot_response}")
                     chat_history.append(user_message) # Adiciona a pergunta do usuário
                     chat_history.append({"role": "assistant", "content": bot_response}) # Adiciona a resposta do bot
                     save_session_state() # Salva a sessão após cada interação
+                    print_separator()
                 else:
+                    print_separator()
                     print("Não foi possível obter uma resposta do chatbot.")
+                    print_separator()
 
         except KeyboardInterrupt:
+            print_separator()
             print("\nEncerrando o chatbot.")
             save_session_state()
+            print_separator()
             break
         except Exception as e:
+            print_separator()
             print(f"Ocorreu um erro inesperado: {e}")
             traceback.print_exc()
+            print_separator()
             # Para depuração, você pode adicionar um traceback mais detalhado:
             # import traceback
             # traceback.print_exc()
