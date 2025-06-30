@@ -341,32 +341,6 @@ def handle_list_exports(args: list): # 'args' para possível filtro futuro
             print(f"O diretório para a sessão '{session_to_list}' não existe em {EXPORTS_DIR}.")
 
 
-def handle_load_export(args: list):
-    """
-    'Carrega' (indica o caminho de) um PDF de chat exportado.
-    Uso: /carregar_export <nome_do_export>
-    """
-    if not args:
-        print(f"Uso: {COMMANDS['load_export']} <nome_do_export>. Por favor, forneça o nome do arquivo PDF.")
-        return
-
-    export_name = args[0]
-    # Adiciona a extensão .pdf se não estiver presente para a busca
-    if not export_name.lower().endswith(".pdf"):
-        export_name += ".pdf"
-
-    # Tenta obter o caminho completo e verifica se existe
-    full_path = pdf_exporter.get_exported_pdf_path(current_session_name, export_name)
-
-    if full_path and os.path.exists(full_path):
-        print(f"PDF de exportação '{export_name}' encontrado em: {full_path}")
-        print("Você pode acessar este arquivo diretamente para visualização ou compartilhamento.")
-    else:
-        print(f"PDF de exportação '{export_name}' não encontrado para a sessão '{current_session_name}'.")
-        print("Verifique se o nome está correto e se ele foi exportado para esta sessão.")
-        handle_list_exports([]) # Sugere listar os exports existentes
-
-
 def handle_delete_export(args: list):
     """
     Exclui um PDF de chat exportado.
@@ -544,8 +518,6 @@ def run_chatbot():
                     handle_export_chat(args)
                 elif command == COMMANDS["list_exports"]:
                     handle_list_exports(args)
-                elif command == COMMANDS["load_export"]:
-                    handle_load_export(args)
                 elif command == COMMANDS["delete_export"]:
                     handle_delete_export(args)
                 # --- FIM DOS NOVOS COMANDOS ---

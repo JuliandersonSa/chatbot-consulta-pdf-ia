@@ -8,7 +8,7 @@ DEFAULT_MODEL = "gpt-4o-mini"
 
 # Criatividade da resposta do modelo (0.0 a 2.0).
 # Valores mais baixos são mais focados e determinísticos, valores mais altos são mais criativos.
-TEMPERATURE = 0.7
+TEMPERATURE = 0.8
 
 # --- Limites de Contexto e Tokens ---
 # Limite máximo de tokens de entrada para o modelo (incluindo System, Histórico e Pergunta).
@@ -18,12 +18,12 @@ TEMPERATURE = 0.7
 MAX_TOKENS_LIMIT = 100000 # Um pouco abaixo do limite do gpt-4o-mini para segurança
 
 # Limite de tokens para a resposta gerada pela IA ao resumir PDFs
-SUMMARY_MAX_TOKENS = 1000 # Um valor razoável para a maioria dos resumos. Ajuste conforme necessário.
+SUMMARY_MAX_TOKENS = 1500 # Um valor razoável para a maioria dos resumos. Ajuste conforme necessário.
 
 # Número máximo de mensagens do histórico de chat a serem incluídas na requisição da API.
 # Isso ajuda a controlar o uso de tokens e manter o contexto relevante.
 # Cada mensagem é um par (user, assistant).
-HISTORY_MESSAGE_LIMIT = 10 # Limita o histórico a 10 pares (20 mensagens individuais)
+HISTORY_MESSAGE_LIMIT = 15 # Limita o histórico a 10 pares (20 mensagens individuais)
 
 # --- Caminhos de Arquivo e Diretórios ---
 # Caminho base para o diretório de dados, relativo ao diretório raiz do projeto.
@@ -92,7 +92,6 @@ COMMANDS = {
     # --- NOVOS COMANDOS DE EXPORTAÇÃO ---
     "export_chat": "/exportar_chat",
     "list_exports": "/listar_exports",
-    "load_export": "/carregar_export",
     "delete_export": "/excluir_export",
     # --- FIM DOS NOVOS COMANDOS ---
 }
