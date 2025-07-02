@@ -5,11 +5,24 @@ import uuid     # Importado para gerar IDs de resumo
 import traceback
 from utils import pdf_exporter
 
-# --- Funçõe Auxiliare de Exibição no Terminal ---
+# --- Funções Auxiliares de Exibição no Terminal ---
 
 def print_separator(char="=", length=60):
     """Imprime uma linha de separação no terminal."""
     print(char * length)
+
+
+def colorize_text(text, color_code, bold=False):
+    """
+    Aplica cores e/ou negrito ao texto para exibição no terminal.
+    Os códigos de cor são padrão ANSI.
+    Ex: 31=vermelho, 32=verde, 33=amarelo, 34=azul, 35=magenta, 36=ciano, 37=branco.
+    """
+    bold_code = "\033[1m" if bold else ""
+    color_start = f"\033[{color_code}m"
+    color_end = "\033[0m" # Código para resetar a formatação
+    return f"{bold_code}{color_start}{text}{color_end}"
+
 
 # Adiciona o diretório raiz do projeto ao sys.path para garantir que as importações funcionem
 # quando main.py é executado de qualquer subdiretório (embora geralmente seja da raiz).
@@ -36,11 +49,15 @@ current_session_name = DEFAULT_SESSION_NAME
 
 # --- Funções Auxiliares de Gerenciamento de Sessão ---
 
+# --- Funções Auxiliares de Gerenciamento de Sessão ---
+
 def load_session_state(session_name: str):
     """Carrega o estado de uma sessão."""
     global chat_history, active_api_summary_content, active_api_summary_metadata, current_session_name
-    print_separator()
+
+   # print(f"DEBUG: Tentando carregar sessão: {session_name}")
     loaded_data = session_manager.load_session(session_name)
+    #print(f"DEBUG: Tipo de loaded_data: {type(loaded_data)}, Valor: {loaded_data}")
 
     if loaded_data: # Início do bloco principal 'if loaded_data'
         loaded_chat_history = loaded_data.get("chat_history", [])
@@ -61,9 +78,11 @@ def load_session_state(session_name: str):
         # Fim do bloco 'if/else' interno
 
         # Estas linhas pertencem ao bloco principal 'if loaded_data'.
+        # Elas devem estar na mesma indentação do 'if' interno acima.
         active_api_summary_content = loaded_active_api_summary_content
         active_api_summary_metadata = loaded_active_api_summary_metadata
         current_session_name = session_name
+        #print(f"Sessão '{current_session_name}' carregada com sucesso.") # Mensagem de sucesso aqui
         # Aprimoramento: Verifica se ambos, conteúdo E metadados, existem
         if active_api_summary_content and active_api_summary_metadata:
             print(f"Resumo ativo: {active_api_summary_metadata.get('original_filename', 'PDF Desconhecido')}")
@@ -83,7 +102,7 @@ def load_session_state(session_name: str):
 def save_session_state():
     """Salva o estado atual da sessão."""
     session_manager.save_session(current_session_name, chat_history, active_api_summary_content, active_api_summary_metadata)
-    print(f"Sessão '{current_session_name}' salva.")
+    #print(f"Sessão '{current_session_name}' salva.")
 
 # --- Funções de Comando ---
 
@@ -333,6 +352,32 @@ def handle_list_exports(args: list): # 'args' para possível filtro futuro
             print(f"O diretório para a sessão '{session_to_list}' não existe em {EXPORTS_DIR}.")
 
 
+def handle_load_export(args: list):
+    """
+    'Carrega' (indica o caminho de) um PDF de chat exportado.
+    Uso: /carregar_export <nome_do_export>
+    """
+    if not args:
+        print(f"Uso: {COMMANDS['load_export']} <nome_do_export>. Por favor, forneça o nome do arquivo PDF.")
+        return
+
+    export_name = args[0]
+    # Adiciona a extensão .pdf se não estiver presente para a busca
+    if not export_name.lower().endswith(".pdf"):
+        export_name += ".pdf"
+
+    # Tenta obter o caminho completo e verifica se existe
+    full_path = pdf_exporter.get_exported_pdf_path(current_session_name, export_name)
+
+    if full_path and os.path.exists(full_path):
+        print(f"PDF de exportação '{export_name}' encontrado em: {full_path}")
+        print("Você pode acessar este arquivo diretamente para visualização ou compartilhamento.")
+    else:
+        print(f"PDF de exportação '{export_name}' não encontrado para a sessão '{current_session_name}'.")
+        print("Verifique se o nome está correto e se ele foi exportado para esta sessão.")
+        handle_list_exports([]) # Sugere listar os exports existentes
+
+
 def handle_delete_export(args: list):
     """
     Exclui um PDF de chat exportado.
@@ -424,11 +469,12 @@ def handle_load_summary(args: list):
 
 def handle_clear_context():
     """Processa o comando /limpar."""
-    global chat_history, active_api_summary_content, active_api_summary_metadata
+    global chat_history # Agora, apenas chat_history é declarado como global para modificação
+    #global chat_history, active_api_summary_content, active_api_summary_metadata
     chat_history = [{"role": "system", "content": SYSTEM_MESSAGE}] # Reseta histórico, mantendo mensagem do sistema
-    active_api_summary_content = None
-    active_api_summary_metadata = None
-    print("Histórico de chat e contexto de PDF limpos para a sessão atual.")
+    #active_api_summary_content = None 
+    #active_api_summary_metadata = None
+    print("Histórico de chat limpo para a sessão atual. O resumo de PDF ativo foi mantido.")
 
 def handle_help():
     """Exibe a lista de comandos disponíveis."""
@@ -450,11 +496,11 @@ def run_chatbot():
     print_separator()
     print("Bem-vindo ao Chatbot de Consulta de PDFs!")
     print("Digite suas perguntas ou um comando (ex: /ajuda para ver os comandos).")
-    print_separator()
 
     while True:
         try:
-            user_input = input(f"[{current_session_name}] Você: ")
+            print_separator()
+            user_input = input(f"\n[{current_session_name}] {colorize_text('VOCÊ', 34, bold=True)}: ") # Azul negrito
             if not user_input.strip(): # Não processa entrada vazia
                 continue
 
@@ -488,38 +534,48 @@ def run_chatbot():
                 elif command == COMMANDS["help"]:
                     handle_help()
                 elif command == COMMANDS["exit"]:
-                    print_separator()
-                    user_choice = input("\nDeseja exportar o chat atual para PDF antes de sair? (s/n): ").lower().strip()
-                    print_separator()
-                    if user_choice == 's':
-                        export_name = input("Por favor, digite um nome para o arquivo PDF (ex: MinhaConversaImportante): ").strip()
-                        if export_name:
-                            result = pdf_exporter.export_chat_to_pdf(chat_history, current_session_name, export_name)
-                            print(result)
+                    # Inicia um loop para garantir uma resposta válida (s/n)
+                    export_decision_made = False
+                    while not export_decision_made:
+                        user_choice = input("\nDeseja exportar o chat atual para PDF antes de sair? (s/n): ").lower().strip()
+                        
+                        if user_choice == 's':
+                            export_name = input("Por favor, digite um nome para o arquivo PDF (ex: MinhaConversaImportante): ").strip()
+                            if export_name:
+                                result = pdf_exporter.export_chat_to_pdf(chat_history, current_session_name, export_name)
+                                print(result)
+                            else:
+                                print_separator()
+                                print("Nome de exportação vazio. O chat não será exportado.")
+                                print_separator()
+                            export_decision_made = True # Sai do loop de decisão
+                        elif user_choice == 'n':
+                            print_separator()
+                            print("Chat não exportado.")
+                            export_decision_made = True # Sai do loop de decisão
                         else:
-                            print("Nome de exportação vazio. O chat não será exportado.")
-                    elif user_choice == 'n':
-                        print_separator()
-                        print("Chat não exportado.")
-                    else:
-                        print("Opção inválida. Chat não exportado.")
-                    
+                            # Se a opção for inválida, exibe a mensagem e o loop continua
+                            print_separator()
+                            print("Opção inválida. Por favor, digite 's' para sim ou 'n' para não.")
+                            print_separator()
+
+                    # Este bloco só é executado após uma decisão válida (s ou n) ser tomada
+                    print_separator()
                     save_session_state()
                     print("Saindo do chatbot. Até mais!")
-                    print_separator()
-                    break
+                    break # Este 'break' sai do loop principal do chatbot
                 # --- NOVOS COMANDOS DE EXPORTAÇÃO ---
                 elif command == COMMANDS["export_chat"]:
                     handle_export_chat(args)
                 elif command == COMMANDS["list_exports"]:
                     handle_list_exports(args)
+                elif command == COMMANDS["load_export"]:
+                    handle_load_export(args)
                 elif command == COMMANDS["delete_export"]:
                     handle_delete_export(args)
                 # --- FIM DOS NOVOS COMANDOS ---
                 else:
-                    print_separator()
                     print(f"Comando '{command}' não reconhecido. Digite /ajuda para ver os comandos.")
-                    print_separator()
             else:
                 # Se não for um comando, é uma pergunta ao chatbot
                 user_message = {"role": "user", "content": user_input}
@@ -548,14 +604,10 @@ def run_chatbot():
 
                 # Se o prompt for muito longo, alertar e não enviar
                 if api_prompt_tokens > MAX_TOKENS_LIMIT:
-                    print_separator()
                     print(f"Aviso: Sua pergunta e o contexto (histórico/resumo) excedem o limite de tokens do modelo ({api_prompt_tokens} tokens). Por favor, limpe o contexto (/limpar) ou faça uma pergunta mais curta.")
-                    print_separator()
                     continue
-               
                 print_separator()
                 print("Gerando resposta (isso pode levar um tempo)...")
-                print_separator()
                 # max_tokens para a resposta da IA em conversas normais pode ser DEFAULT_MAX_TOKENS_RESPONSE
                 # que podemos adicionar ao config.py, ou deixar a API definir.
                 # Aqui, não estamos limitando explicitamente a resposta para conversas gerais,
@@ -566,29 +618,23 @@ def run_chatbot():
                     temperature=TEMPERATURE
                 )
 
-                print_separator()
                 if bot_response:
-                    print(f"[{current_session_name}] Bot: {bot_response}")
+                    print_separator()
+                    print(f"[{current_session_name}] {colorize_text('BOT', 36, bold=True)}: {colorize_text(bot_response, 36, bold=False)}")
                     chat_history.append(user_message) # Adiciona a pergunta do usuário
                     chat_history.append({"role": "assistant", "content": bot_response}) # Adiciona a resposta do bot
                     save_session_state() # Salva a sessão após cada interação
-                    print_separator()
                 else:
                     print_separator()
                     print("Não foi possível obter uma resposta do chatbot.")
-                    print_separator()
 
         except KeyboardInterrupt:
-            print_separator()
             print("\nEncerrando o chatbot.")
             save_session_state()
-            print_separator()
             break
         except Exception as e:
-            print_separator()
             print(f"Ocorreu um erro inesperado: {e}")
             traceback.print_exc()
-            print_separator()
             # Para depuração, você pode adicionar um traceback mais detalhado:
             # import traceback
             # traceback.print_exc()
