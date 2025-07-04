@@ -85,6 +85,7 @@ COMMANDS = {
     "delete_session": "/excluir_sessao",
     "list_summaries": "/listar_resumos",
     "load_summary": "/carregar_resumo",
+    "create_manual_summary": "/criar_resumo",
     "clear_context": "/limpar",       # Mantido como você tem
     "exit": "/sair",
     "help": "/ajuda",

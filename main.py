@@ -106,6 +106,96 @@ def save_session_state():
 
 # --- Funções de Comando ---
 
+def handle_create_manual_summary(args: list):
+	global active_api_summary_content, active_api_summary_metadata, chat_history
+	
+	input_text = "".join(args).strip()
+	if not input_text:
+		print("Nenhum texto fornecido para resumir. Por favor, digite o texto agora (pressione Enter para finalizar, ou Ctrl+D/Cmd+D em uma nova linha para finalizar):")
+		lines = []
+		while True:
+			try:
+				line = input()
+				if not line: # Permite uma linha vazia para finalizar entrada, se o usuário pressionar Enter novamente
+					break
+				lines.append(line)
+			except EOFError: # Captura Ctrl+D/Cmd+D
+				break 
+		input_text = "/n".join(lines).strip()
+		
+	if not input_text:
+		print("Nenhum texto válido fornecido para resumo. Operação cancelada.")
+		return 
+		
+	print("Texto recebido. Gerando resumo via OpenAI API (isso pode levar um tempo)...")
+	
+	# Preparar mensagens para a API para resumir o texto
+	summary_prompt_messages = [
+	    {"role": "system", "content": "Você é um assistente que reescreve textos de forma ligeira, mantendo a fidelidade ao original e apenas condensando levemente se necessário para clareza. Seu objetivo é preservar o máximo de detalhes possível. Responda apenas com o texto reescrito."},
+        {"role": "user", "content": f"Reescreva o seguinte texto, mantendo-o o mais fiel possível ao original. Texto:\n\n{input_text}"}
+	]
+	
+	# Contar tokens do prompt do resumo para evitar exceder o limite
+	prompt_tokens = token_utils.count_tokens_in_messages(summary_prompt_messages)
+	
+	# Lógica de Truncamento Aprimorada:
+	# Considera o limite de tokens do modelo menos uma margem para a resposta do resumo
+	# e uma margem de segurança para o sistema/instrução (ex: 200 tokens).
+	max_prompt_tokens_allowed = MAX_TOKENS_LIMIT - SUMMARY_MAX_TOKENS - 200
+	
+	if prompt_tokens > max_prompt_tokens_allowed:
+		print(f"Aviso: O texto é muito longo ({prompt_tokens} tokens) para ser resumido no modelo atual.")
+		print(f"Truncando o texto para caber no limite de {max_prompt_tokens_allowed} tokens...")
+		
+		# Truncar o texto
+		encoded_text = token_utils.ENCODER.encode(input_text)
+		if len(encoded_text) > max_prompt_tokens_allowed:
+			truncated_encoded_text = encoded_text[:max_prompt_tokens_allowed]
+			input_text = token_utils.ENCODER.decode(truncated_encoded_text)
+		else:
+			print("Erro inesperado durante o truncamento: texto não reduzido o suficiente.")
+			return
+			
+		#  Atualiza a mensagem do usuário com o texto truncado
+		summary_prompt_messages[1]["content"] = f"Resuma o seguinte texto, focando nos pontos chave e informações mais relevantes. Seja conciso e direto. Texto:\n\n{input_text}"
+		
+		# Recalcula prompt_tokens com o texto truncado
+		prompt_tokens = token_utils.count_tokens_in_messages(summary_prompt_messages)
+		print("Erro: O prompt do resumo ainda é muito grande mesmo após truncamento. Não é possível gerar resumo.")
+		return 
+		
+	# Chamada à API da OpenAI para gerar o resumo
+	summary_response = api_service.get_openai_completion(
+		messages=summary_prompt_messages,
+		model=DEFAULT_MODEL,
+		temperature=TEMPERATURE,
+		max_tokens=SUMMARY_MAX_TOKENS
+		
+	)
+	
+	if summary_response:
+		active_api_summary_content = summary_response
+		active_api_summary_metadata = {
+			"original_filename": "Resumo Manual", # Pode ser algo como "Resumo_Manual_<timestamp>"
+			"timestamp": datetime.datetime.now().isoformat(),
+			"summary_id": str(uuid.uuid4())
+		}
+		# Salva o resumo no sistema de arquivos
+		actual_summary_id = session_manager.save_pdf_summary(active_api_summary_content, active_api_summary_metadata)
+		active_api_summary_metadata["summary_id"] = actual_summary_id # Atualiza com o ID real
+		
+		print(f"\nResumo gerado e definido como contexto ativo para a sessão '{current_session_name}'.")
+		print(f"ID do Resumo: {actual_summary_id}. Use /listar_resumos para vê-lo.")
+		# Adiciona mensagem ao histórico indicando que um resumo foi carregado
+		chat_history.append({"role": "system", "content": f"Resumo manual carregado e pronto para consultas."})
+		save_session_state() # Salva a sessão para persistir o resumo ativo
+	else:
+		print("Não foi possível gerar o resumo do texto fornecido.")
+		active_api_summary_content = None
+		active_api_summary_metadata = None
+	
+	
+
 def handle_read_pdf(file_name: str):
     """Processa o comando /lerpdf."""
     global active_api_summary_content, active_api_summary_metadata, chat_history
@@ -523,6 +613,8 @@ def run_chatbot():
                     handle_list_sessions()
                 elif command == COMMANDS["delete_session"]:
                     handle_delete_session(args)
+                elif command == COMMANDS["create_manual_summary"]: 
+                    handle_create_manual_summary(args)
                 elif command == COMMANDS["list_summaries"]:
                     handle_list_summaries()
                 elif command == COMMANDS["load_summary"]:
