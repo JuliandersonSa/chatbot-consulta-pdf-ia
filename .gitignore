@@ -1,21 +1,69 @@
-# Arquivos de configuração sensíveis
+# -------------------------------------------------------------
+# Variáveis de Ambiente e Ambientes Virtuais
+# Garante que chaves de API e a instalação do seu venv não vão para o Git
+# -------------------------------------------------------------
 .env
-
-# Dados gerados pelo chatbot (sessões, resumos, exports)
-data/
-
-# Ambientes virtuais
-env/
 venv/
-.venv/
+env/                 # Caso você use 'env' em vez de 'venv'
+*.venv/              # Para outros nomes de ambientes virtuais
 
-# Cache do Python e arquivos temporários
-__pycache__/
+# -------------------------------------------------------------
+# Python - Arquivos de Cache e Compilação
+# Arquivos gerados pelo Python que não precisam ser versionados
+# -------------------------------------------------------------
+__pycache__/         # Correção para o nome correto do cache do Python
 *.pyc
+*.pyd
+*.so
+
+# -------------------------------------------------------------
+# Python - Logs, Caches e Artefatos Temporários
+# Arquivos de log e cache de ferramentas Python que são gerados automaticamente
+# -------------------------------------------------------------
 *.log
+pip-log.txt
+.Python              # Se presente em versões antigas do virtualenv
 .pytest_cache/
 .mypy_cache/
+.coverage            # Relatórios de cobertura de código
+htmlcov/             # Relatórios HTML de cobertura
 
-# Arquivos de IDEs (opcional, adicione se usar VS Code, PyCharm, etc.)
+# -------------------------------------------------------------
+# Python - Artefatos de Empacotamento/Build
+# Arquivos gerados quando você empacota o projeto
+# -------------------------------------------------------------
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# -------------------------------------------------------------
+# IDEs / Editores - Arquivos de Configuração e Temporários
+# Ignora arquivos específicos de IDEs (VS Code, PyCharm, etc.) e editores
+# -------------------------------------------------------------
 .vscode/
 .idea/
+*~                   # Arquivos temporários de backup de editores (ex: Vim)
+*.swp                # Arquivos de swap do Vim
+.#* # Arquivos temporários de alguns editores
+
+# Ignorar todos os arquivos e subpastas dentro de 'exports/'
+# Isso mantém a pasta 'exports/' e suas subpastas vazias no Git,
+# mas ignora os PDFs exportados e seus diretórios de sessão.
+data/profiles/default/exports/*
+
+# Ignorar todos os arquivos JSON de sessão
+data/profiles/default/sessions/*.json
+
+# Ignorar todos os arquivos JSON de resumos
+data/profiles/default/summaries/*.json
+
+# Ignora TODOS os PDFs que o usuário carregar/gerar em 'data/pdfs/',
+# mas mantem a pasta 'data/pdfs/' vazia no Git
+data/pdfs/*.pdf
+
+# -------------------------------------------------------------
+# Arquivos de Sistema Operacional
+# -------------------------------------------------------------
+.DS_Store            # macOS
+Thumbs.db            # Windows

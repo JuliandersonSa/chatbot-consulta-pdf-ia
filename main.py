@@ -646,7 +646,7 @@ def run_chatbot():
     while True:
         try:
             print_separator()
-            user_input = input(f"\n[{current_session_name}] {colorize_text('VOCÊ', 34, bold=True)}: ") # Azul negrito
+            user_input = input(f"\n[{current_session_name}] {colorize_text('CHATGPT VOCÊ', 34, bold=True)}: ") # Azul negrito
             if not user_input.strip(): # Não processa entrada vazia
                 continue
 

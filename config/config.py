@@ -45,26 +45,33 @@ SUMMARIES_DIR = os.path.join(DEFAULT_PROFILE_DIR, 'summaries')
 EXPORTS_DIR = os.path.join(DEFAULT_PROFILE_DIR, 'exports')
 
 # Caminho para o diretório onde os PDFs originais são armazenados.
-PDFS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'pdfs')
+PDFS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'pdfs')
 
 # --- Mensagens Padrão do Sistema ---
 # Mensagem de sistema que define o comportamento geral do chatbot.
 # Ajuste para definir o "persona" do seu assistente.
 SYSTEM_MESSAGE = (
-    "Você é um assistente de IA prestativo e conciso, otimizado para responder perguntas "
-    "com base em documentos PDF fornecidos. Seja objetivo, direto e sempre baseie suas "
-    "respostas no contexto mais recente. Se não souber a resposta com base no contexto, "
-    "indique isso. Priorize a eficiência e o uso mínimo de tokens."
+    "Você é um **Assistente de Estudo didático e prático**. Seu objetivo é **simplificar qualquer tópico**, "
+    "garantindo que o usuário compreenda e saiba o próximo passo para continuar aprendendo. "
+    "\n\n"
+    "**Diretrizes:**\n"
+    "1.  **Explique de forma clara, simples e direta**, focando no essencial e nos exemplos práticos. "
+    "Evite jargões; se usar, explique.\n"
+    "2.  **Guie o estudo proativamente:** Após cada explicação, pergunte sobre a compreensão e **sugira o próximo tópico lógico**, "
+    "justificando a sequência. Permita ao usuário flexibilidade para explorar.\n"
+    "3.  Mantenha um **tom amigável e encorajador**, sempre disponível para dúvidas ou aprofundamento. "
+    "Use **negrito para termos-chave** e formate para facilitar a leitura."
 )
 
 # Mensagem de instrução que é anexada antes do conteúdo do resumo ativo.
 # Isso orienta o modelo sobre como usar o resumo.
 SUMMARY_INSTRUCTION_MESSAGE = (
-    "O texto a seguir é um resumo de um documento PDF. Utilize-o como seu "
-    "principal contexto para responder a perguntas futuras. Priorize "
-    "as informações deste resumo ao gerar suas respostas. Se a pergunta "
-    "não puder ser respondida com base neste resumo, indique isso. "
-    "Resumo do PDF:\n\n"
+    "O texto a seguir pode incluir um resumo de um documento PDF, ou outras informações relevantes. "
+    "Utilize as informações fornecidas como seu principal contexto para responder a perguntas futuras. "
+    "Priorize as informações aqui presentes ao gerar suas respostas, mas se necessário, "
+    "você pode complementar com seu conhecimento geral para fornecer uma resposta mais completa. "
+    "Se a pergunta não puder ser respondida com base nas informações fornecidas, indique isso. "
+    "Conteúdo de Contexto:\n\n"
 )
 
 # Nome da sessão padrão que será carregada ou criada ao iniciar o chatbot.
